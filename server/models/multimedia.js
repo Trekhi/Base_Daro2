@@ -20,4 +20,3 @@ MultimediaSchema.methods.toJSON = function() {
 
 module.exports = model( 'Multimedia', MultimediaSchema,'imagenes' );
 
-/////BIEN

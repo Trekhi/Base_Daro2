@@ -4,7 +4,7 @@ const {
   obtenerCasting,
   crearCasting,
   obtenerCastingPelicula,
-} = require("../controller/funciones_c");
+} = require("../controller/funciones_casting");
 
 const router = Router();
 
