@@ -5,7 +5,7 @@ const {unHeroe,
     modificarHeroe,
     crearHeroe } = require('../controller/funcion_Heroe')
 
-const { obtenerCasting, crearCasting, obtenerCastingPelicula } = require('../controller/funciones_c')
+const { obtenerCasting, crearCasting, obtenerCastingPelicula } = require('../controller/funciones_casting')
 
 const { crearPelicula, obtenerPeliculas, obtenerPeliculaPorId } = require('../controller/funcion_pelicula') 
 

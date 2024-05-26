@@ -13,6 +13,7 @@ class Server {
       heroe: "/heroes",
       pelicula: "/peliculas",
       castings: "/cast",
+      multimediaPelicula: "/multimediaP"
     };
 
     this.mongoconnection();
@@ -31,6 +32,8 @@ class Server {
     this.app.use(this.pathsMongo.heroe, require("../routes/heroes"));
     this.app.use(this.pathsMongo.pelicula, require("../routes/peliculas"));
     this.app.use(this.pathsMongo.castings, require("../routes/castingPeliculas"));
+    this.app.use(this.pathsMongo.multimediaPelicula, require("../routes/multimediaPelicula"));
+    
   }
 
   middlewares() {
