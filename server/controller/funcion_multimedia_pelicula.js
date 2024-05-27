@@ -51,7 +51,7 @@ const obtenerTodosMultimedia = async (req, res = response) => {
 };
 
 const obtenerGrupoMultimedia = async (req, res = response) => {
-  const { _id } = req.body;
+  const { _id } = req.params;
 
   try {
     const grupomultimedia = await MultimediaPelicula.findById(_id)

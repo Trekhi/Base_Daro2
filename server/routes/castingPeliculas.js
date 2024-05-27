@@ -10,7 +10,7 @@ const router = Router();
 
 router.get('',  obtenerCasting);
 router.post('/crearCasting' , crearCasting);
-router.get('/infoCasting', obtenerCastingPelicula);
+router.get('/infoCasting/:_id', obtenerCastingPelicula);
 
 
 module.exports = router;

@@ -31,6 +31,6 @@ HeroeSchema.methods.toJSON = function() {
     return data;
 }
 
-module.exports = model( 'Heroe', HeroeSchema );
+module.exports = model( 'Heroe', HeroeSchema, 'heroes' );
 
 ///////////////BIEN TODO FUNCIONO
