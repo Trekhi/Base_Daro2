@@ -44,42 +44,28 @@ const obtenerHeroes = async (req, res = response) => {
 
 
 const unHeroe = async (req, res) => {
+  const {_id } = req.params;
   try {
-    const { _id } = req.body;
-
-    if (!_id) {
-      return res
-        .status(400)
-        .json({
-          error: "ID del héroe no proporcionado en el cuerpo de la solicitud",
-        });
-    }
-
-    const heroe = await Heroe.findOne({ _id });
-
-    if (!heroe) {
-      return res.status(404).json({ error: "Héroe no encontrado" });
-    }
-
-    // Envía la respuesta con los datos del héroe encontrado
-    res.json({ data: heroe });
+    const heroe = await Heroe.findById(_id);
+    res.json({ Ok: true, resp: heroe });
   } catch (error) {
-    console.error("Error en unHeroe:", error);
-    res.status(500).json({ error: "Error interno del servidor" });
+    console.error("Error en obtener Heroe por id:", error);
+    res.status(500).json({ Ok: false, resp: error.message });
   }
 };
+
 
 
 // Eliminar un héroe por su ID
 const eliminarHeroe = async (req, res) => {
   try {
-    const { _id } = req.body;
+    const { _id } = req.params;
 
     if (!_id) {
       return res
         .status(400)
         .json({
-          error: "ID del héroe no proporcionado en el cuerpo de la solicitud",
+          error: "ID del héroe no proporcionado en la url",
         });
     }
 
@@ -99,34 +85,32 @@ const eliminarHeroe = async (req, res) => {
 
 
 // Modificar un héroe por su ID
+
 const modificarHeroe = async (req, res) => {
   try {
-    const { _id, nombre, bio, img, aparicion, casa } = req.body;
+    const {_id } = req.params; // Obtener el ID de los parámetros de la URL
+    const { nombre, bio, img, aparicion, casa } = req.body;
 
+    // Verificar si el ID fue proporcionado
     if (!_id) {
-      return res
-        .status(400)
-        .json({
-          error: "ID del héroe no proporcionado en el cuerpo de la solicitud",
-        });
+      return res.status(400).json({ error: "ID del héroe no proporcionado en la URL" });
     }
 
+    // Actualizar el héroe
     const heroeModificado = await Heroe.findByIdAndUpdate(_id, { nombre, bio, img, aparicion, casa }, { new: true });
 
+    // Verificar si el héroe fue encontrado y modificado
     if (!heroeModificado) {
       return res.status(404).json({ error: "Héroe no encontrado" });
     }
 
+    // Responder con el héroe modificado
     res.json({ data: heroeModificado });
   } catch (error) {
     console.error("Error en modificarHeroe:", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
 };
-
-
-
-
 
 
 

@@ -21,9 +21,9 @@ const obtenerPeliculas = async (req, res) => {
   };
 
 const obtenerPeliculaPorId = async (req, res) => {
-    const { id } = req.params;
+    const {_id } = req.params;
     try {
-      const pelicula = await Pelicula.findById(id);
+      const pelicula = await Pelicula.findById(_id);
       res.json({ Ok: true, resp: pelicula });
     } catch (error) {
       console.error("Error en obtenerPeliculaPorId:", error);
@@ -32,58 +32,58 @@ const obtenerPeliculaPorId = async (req, res) => {
   };
 
 
-const eliminarPelicula = async(req,res) => {
-  try {
-    const { _id } = req.body;
-
-    if (!_id) {
-      return res
-        .status(400)
-        .json({
-          error: "ID de la pelicula no proporcionado en el cuerpo de la solicitud",
-        });
+  const eliminarPelicula = async (req, res) => {
+    try {
+      const { _id } = req.params;
+  
+      if (!_id) {
+        return res
+          .status(400)
+          .json({
+            error: "ID de la pelicula no proporcionado en la url",
+          });
+      }
+  
+      const peliculaEliminada = await Pelicula.findByIdAndDelete(_id);
+  
+      if (!peliculaEliminada) {
+        return res.status(404).json({ error: "pelicula no encontrado" });
+      }
+  
+      res.json({ message: "Pelicula eliminada exitosamente" });
+    } catch (error) {
+      console.error("Error en eliminar Pelicula:", error);
+      res.status(500).json({ error: "Error interno del servidor" });
     }
+  };
+  
 
-    const peliculaEliminado = await Pelicula.findByIdAndDelete(_id);
 
-    if (!peliculaEliminado) {
-      return res.status(404).json({ error: "Pelicula no encontrada" });
+  const actualizarPelicula = async (req, res) => {
+    try {
+      const {_id } = req.params; // Obtener el ID de los parámetros de la URL
+      const { titulo, descripcion, fecha_lanzamiento,img } = req.body;
+  
+      // Verificar si el ID fue proporcionado
+      if (!_id) {
+        return res.status(400).json({ error: "ID de la pelicula no proporcionada en la URL" });
+      }
+  
+      // Actualizar el héroe
+      const peliculaModificado = await Pelicula.findByIdAndUpdate(_id, { titulo, descripcion, fecha_lanzamiento,img }, { new: true });
+  
+      // Verificar si el héroe fue encontrado y modificado
+      if (!peliculaModificado) {
+        return res.status(404).json({ error: "Héroe no encontrado" });
+      }
+  
+      // Responder con el héroe modificado
+      res.json({ data: peliculaModificado });
+    } catch (error) {
+      console.error("Error en modificarHeroe:", error);
+      res.status(500).json({ error: "Error interno del servidor" });
     }
-
-    res.json({ message: "Pelicula eliminada exitosamente" });
-  } catch (error) {
-    console.error("Error en eliminar pelicula:", error);
-    res.status(500).json({ error: "Error interno del servidor" });
-  }
-};
-
-
-const actualizarPelicula = async (req, res = response) => {
-  const {_id } = req.params;
-
-  if (!_id) {
-    return res
-      .status(400)
-      .json({
-        error: "ID del héroe no proporcionado en el cuerpo de la solicitud",
-      });
-  }
-
-  const data  = req.body;
-
-  console.log(data)
-
-  try {
-    const pelicula = await Pelicula.findByIdAndUpdate(id, data, {
-      new: true,
-    });
-
-    res.json({ Ok: true, msg: 'Pelicula Actualizado', resp: pelicula });
-  } catch (error) {
-    console.log("ERROR_MODIFICAR",error);
-    res.json({ Ok: false, resp: error });
-  }
-};
+  };
 
   
 module.exports = { 

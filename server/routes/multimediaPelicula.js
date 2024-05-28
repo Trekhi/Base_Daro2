@@ -6,16 +6,16 @@ const {
     obtenerGrupoMultimedia,
     crearMultimediaPelicula,
     actualizarMultimediaPelicula,
-    borrarMultimediaHeroe
+    borrarMultimediaPelicula
   } = require("../controller/funcion_multimedia_pelicula");
   
   const router = Router();
   
   router.get('/',obtenerMultimediaPelicula)
   router.get('/Datos',obtenerTodosMultimedia)
-  router.post('/Grupo_especifico', obtenerGrupoMultimedia)
-  router.post('/Crear-Grupo-especifico/', crearMultimediaPelicula)
-  router.put('/actualizar/:id' , actualizarMultimediaPelicula)
-  router.delete('/eliminar/:id', borrarMultimediaHeroe)
+  router.get('/Grupo_especifico/:_id', obtenerGrupoMultimedia)
+  router.post('/CrearGrupo', crearMultimediaPelicula)
+  router.put('/actualizar/:_id' , actualizarMultimediaPelicula)
+  router.delete('/eliminar/:_id', borrarMultimediaPelicula)
   
-  module.exports = router;
+  module.exports = router;  

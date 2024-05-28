@@ -105,11 +105,11 @@ const crearMultimediaPelicula = async (req, res = response) => {
 };
 
 const actualizarMultimediaPelicula = async (req, res = response) => {
-  const { id } = req.params;
+  const {_id } = req.params;
   const { peliculas_id, imagenes_id } = req.body;
 
   try {
-    const multimediaPelicula = await MultimediaPelicula.findByIdAndUpdate(id, { peliculas_id, imagenes_id }, {
+    const multimediaPelicula = await MultimediaPelicula.findByIdAndUpdate(_id, { peliculas_id, imagenes_id }, {
       new: true,
     });
 
@@ -123,12 +123,12 @@ const actualizarMultimediaPelicula = async (req, res = response) => {
   }
 };
 
-const borrarMultimediaHeroe = async (req, res = response) => {
-  const { id } = req.params;
+const borrarMultimediaPelicula = async (req, res = response) => {
+  const {_id } = req.params;
 
   try {
 
-      const multimediaPeliculaBorrado = await MultimediaPelicula.findByIdAndDelete(id);
+      const multimediaPeliculaBorrado = await MultimediaPelicula.findByIdAndDelete(_id);
       res.json({ Ok: true, resp: multimediaPeliculaBorrado });
 
   } catch (error) {
@@ -144,5 +144,5 @@ module.exports = {
   obtenerGrupoMultimedia,
   crearMultimediaPelicula,
   actualizarMultimediaPelicula,
-  borrarMultimediaHeroe
+  borrarMultimediaPelicula
 };

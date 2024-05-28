@@ -11,9 +11,9 @@ const {
 const router = Router();
 
 router.get('/',obtenerHeroes)
-router.post('/',unHeroe)
+router.get('/:_id',unHeroe)
 router.post('/crearHeroe', crearHeroe);
-router.put('/moficarHeroe', modificarHeroe);
-router.delete('/eliminarHeroe', eliminarHeroe);
+router.put('/moficarHeroe/:_id', modificarHeroe);
+router.delete('/eliminarHeroe/:_id', eliminarHeroe);
 
 module.exports = router;

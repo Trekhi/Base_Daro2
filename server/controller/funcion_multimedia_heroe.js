@@ -20,7 +20,7 @@ const obtenerMultimediaHeroe = async (req, res = response) => {
       MultimediaHeroe.countDocuments(query),
       MultimediaHeroe.find(query)
         .populate({
-          path: "heroe_id",
+          path: "heroes_id",
           select: "nombre",
         })
         .populate({
@@ -51,11 +51,11 @@ const obtenerTodosMultimediaH = async (req, res = response) => {
 };
 
 const obtenerGrupoMultimediaH = async (req, res = response) => {
-  const { _id } = req.params;
+  const {_id } = req.params;
 
   try {
     const grupomultimediaH = await MultimediaHeroe.findById(_id)
-      .populate("heroe_id", "nombre bio img aparacion casa")
+      .populate("heroes_id", "nombre bio img aparacion casa")
       .populate("imagenes_id", "descripcion url");
 
     res.json({ Ok: true, resp: grupomultimediaH });
@@ -65,8 +65,81 @@ const obtenerGrupoMultimediaH = async (req, res = response) => {
   }
 };
 
+const crearMultimediaHeroe = async (req, res = response) => {
+  const { heroes_id, imagenes_id } = req.body;
+
+  try {
+    const heroeExistente = await Heroe.findById(heroes_id);
+    const imagenExistente = await Multimedia.findById(imagenes_id);
+
+    if (!heroeExistente) {
+      return res.status(404).json({
+        Ok: false,
+        msg: `El heroe con ID ${heroes_id} no existe`,
+      });
+    }
+
+    if (!imagenExistente) {
+      return res.status(404).json({
+        Ok: false,
+        msg: `La imagen con ID ${imagenes_id} no existe`,
+      });
+    }
+
+    const data = {
+      heroes_id,
+      imagenes_id,
+    };
+
+    const multimediaHeroe = new MultimediaHeroe(data);
+
+    // Guardar en la base de datos
+    await multimediaHeroe.save();
+
+    res.status(201).json({ Ok: true, resp: multimediaHeroe });
+  } catch (error) {
+    console.error(error); 
+    res.status(500).json({ Ok: false, resp: error.message });
+  }
+};
+
+const actualizarMultimediaHeroe = async (req, res = response) => {
+  const {_id } = req.params;
+  const { heroes_id, imagenes_id } = req.body;
+
+  try {
+    const multimediaHeroe = await MultimediaHeroe.findByIdAndUpdate(_id, { heroes_id, imagenes_id }, {
+      new: true,
+    });
+
+    if (!multimediaHeroe) {
+      return res.status(404).json({ Ok: false, msg: 'No se encontró ningún documento con el ID proporcionado' });
+    }
+
+    res.json({ Ok: true, resp: multimediaHeroe });
+  } catch (error) {
+    res.status(500).json({ Ok: false, resp: error.message });
+  }
+};
+
+const borrarMultimediaHeroe = async (req, res = response) => {
+  const {_id } = req.params;
+
+  try {
+
+      const multimediaHeroeBorrado = await MultimediaHeroe.findByIdAndDelete(_id);
+      res.json({ Ok: true, resp: multimediaHeroeBorrado });
+
+  } catch (error) {
+      res.json({ Ok: false, resp: error });
+  }
+};
+
 module.exports = {
   obtenerMultimediaHeroe,
   obtenerTodosMultimediaH,
-  obtenerGrupoMultimediaH
+  obtenerGrupoMultimediaH,
+  crearMultimediaHeroe,
+  actualizarMultimediaHeroe,
+  borrarMultimediaHeroe
 };

@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const MultimediaHeroeSchema = Schema({
-  heroe_id: {
+  heroes_id: {
     type: Schema.Types.ObjectId,
     ref: "Heroe",
   },

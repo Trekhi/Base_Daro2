@@ -1,4 +1,4 @@
-const { CastingPelicula } = require('../models');
+const { CastingPelicula, Pelicula, Heroe } = require('../models');
 
 const obtenerCasting = async (req, res) => {
   try {
@@ -10,14 +10,41 @@ const obtenerCasting = async (req, res) => {
   }
 };
 
-const crearCasting = async (req, res) => {
+const crearCasting = async (req, res = response) => {
+  const { heroes_id, peliculas_id, personaje } = req.body;
+
   try {
-    const { pelicula, heroe } = req.body;
-    const nuevoCasting = new CastingPelicula({ pelicula, heroe });
-    await nuevoCasting.save();
-    res.json({ Ok: true, resp: nuevoCasting });
+    const heroeExistente = await Heroe.findById(heroes_id);
+    const peliculaExistente = await Pelicula.findById(peliculas_id);
+
+    if (!heroeExistente) {
+      return res.status(404).json({
+        Ok: false,
+        msg: `El heroe con ID ${heroes_id} no existe`,
+      });
+    }
+
+    if (!peliculaExistente) {
+      return res.status(404).json({
+        Ok: false,
+        msg: `La pelicula con ID ${peliculas_id} no existe`,
+      });
+    }
+
+    const data = {
+      heroes_id,
+      peliculas_id,
+      personaje
+    };
+
+    const casting = new CastingPelicula(data);
+
+    // Guardar en la base de datos
+    await casting.save();
+
+    res.status(201).json({ Ok: true, resp: casting });
   } catch (error) {
-    console.error("Error en crearCasting:", error);
+    console.error(error); 
     res.status(500).json({ Ok: false, resp: error.message });
   }
 };
@@ -34,4 +61,46 @@ const obtenerCastingPelicula = async (req, res) => {
   }
 };
 
-module.exports = { obtenerCasting, crearCasting, obtenerCastingPelicula };
+
+const actualizarCasting = async (req, res = response) => {
+  const {_id } = req.params;  // id se pasa por url
+  const { heroes_id, peliculas_id, personaje } = req.body;  // valor que vaya a cambiar, pueden ser todos o solo 1 por el cuerpo de la solicitud
+
+  try {
+    const casting = await CastingPelicula.findByIdAndUpdate(_id, { heroes_id, peliculas_id, personaje }, {
+      new: true,
+    });
+
+    if (!casting) {
+      return res.status(404).json({ Ok: false, msg: 'No se encontró ningún documento con el ID proporcionado' });
+    }
+
+    res.json({ Ok: true, resp: casting });
+  } catch (error) {
+    res.status(500).json({ Ok: false, resp: error.message });
+  }
+};
+
+const borrarCasting = async (req, res = response) => {
+  const {_id } = req.params;
+
+  try {
+
+      const castingeliminado = await CastingPelicula.findByIdAndDelete(_id);
+      res.json({ Ok: true, resp:  castingeliminado });
+
+  } catch (error) {
+      res.json({ Ok: false, resp: error });
+  }
+};
+
+
+
+module.exports = { 
+  obtenerCasting, 
+  crearCasting, 
+  obtenerCastingPelicula,
+  actualizarCasting,
+  borrarCasting
+
+};

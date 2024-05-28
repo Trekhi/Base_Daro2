@@ -12,9 +12,9 @@ const router = Router();
 
 
 router.get('/',obtenerPeliculas);
-router.post('/id',obtenerPeliculaPorId);
-router.post('/crearPelicula', crearPelicula);
-router.delete('id',eliminarPelicula);
-router.put('/id',actualizarPelicula);
+router.get('/:_id',obtenerPeliculaPorId);
+router.post('/crearP', crearPelicula);
+router.delete('/eliminarP/:_id',eliminarPelicula);
+router.put('/actualizarP/:_id',actualizarPelicula);
 
 module.exports = router;
