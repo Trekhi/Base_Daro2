@@ -21,11 +21,11 @@ const obtenerMultimediaPelicula = async (req, res = response) => {
       MultimediaPelicula.find(query)
         .populate({
           path: "peliculas_id",
-          select: "titulo",
+          select: "titulo fecha_lanzamiento",
         })
         .populate({
-          path: "imagenes_id",
-          select: "descripcion",
+          path: "imagenes_id",  
+          select: "descripcion url",
         })
         .skip(desdeNum)
         .limit(limiteNum),
