@@ -12,7 +12,7 @@ const crearMultimedia = async (req, res) => {
 
 const obtenerMultimedias = async (req, res) => {
     try {
-      const multimedia = await Multidemia.find();
+      const multimedia = await Multimedia.find();
       res.json({ Ok: true, resp: multimedia });
     } catch (error) {
       console.error("Error en obtenerMultimedia:", error);
