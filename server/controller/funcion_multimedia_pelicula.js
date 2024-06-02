@@ -136,6 +136,36 @@ const borrarMultimediaPelicula = async (req, res = response) => {
   }
 };
 
+////////////////////////////////TITULO
+const obtenerGrupoMultimediaTitulo = async (req, res = response) => {
+  const { titulo } = req.params;
+
+  try {
+    // Buscar la película por su título para obtener su mongo_id
+    const pelicula = await Pelicula.findOne({ titulo });
+
+    if (!pelicula) {
+      return res.status(404).json({ Ok: false, resp: "Película no encontrada" });
+    }
+
+    // Buscar el grupo multimedia por el mongo_id de la película
+    const grupomultimedia = await MultimediaPelicula.find({ peliculas_id: pelicula._id })
+      .populate("peliculas_id", "titulo fecha_lanzamiento")
+      .populate("imagenes_id", "descripcion url");
+
+    if (!grupomultimedia) {
+      return res.status(404).json({ Ok: false, resp: "Grupo multimedia no encontrado" });
+    }
+
+    res.json({ Ok: true, resp: grupomultimedia });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ Ok: false, resp: error.message });
+  }
+};
+
+
+
 
 
 module.exports = {
@@ -144,5 +174,6 @@ module.exports = {
   obtenerGrupoMultimedia,
   crearMultimediaPelicula,
   actualizarMultimediaPelicula,
-  borrarMultimediaPelicula
+  borrarMultimediaPelicula,
+  obtenerGrupoMultimediaTitulo
 };
