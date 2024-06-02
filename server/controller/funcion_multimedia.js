@@ -61,29 +61,35 @@ const obtenerMultimediaId = async (req, res) => {
 
   const actualizarMultimedia = async (req, res) => {
     try {
-      const {_id } = req.params; // Obtener el ID de los parámetros de la URL
+      const { _id } = req.params; // Obtener el ID de los parámetros de la URL
       const { descripcion, url } = req.body;
   
       // Verificar si el ID fue proporcionado
       if (!_id) {
         return res.status(400).json({ error: "ID de multimedia no proporcionada en la URL" });
       }
-      // Actualizar el héroe
-      const multimediaModificado = await Multimedia.findByIdAndUpdate(_id, { descripcion, url }, { new: true });
   
-      // Verificar si el héroe fue encontrado y modificado
-      if (!multimediaModificado) {
-        return res.status(404).json({ error: "Multimedia no encontrado" });
+      // Verificar si los campos necesarios están en el cuerpo de la solicitud
+      if (!descripcion || !url) {
+        return res.status(400).json({ error: "Datos incompletos" });
       }
   
-      // Responder con el héroe modificado
-      res.json({ data: multimediaModificado });
+      // Actualizar la multimedia
+      const multimediaModificado = await Multimedia.findByIdAndUpdate(_id, { descripcion, url }, { new: true });
+  
+      // Verificar si la multimedia fue encontrada y modificada
+      if (!multimediaModificado) {
+        return res.status(404).json({ error: "Multimedia no encontrada" });
+      }
+  
+      // Responder con la multimedia modificada
+      res.json({ Ok: true, resp: multimediaModificado });
     } catch (error) {
       console.error("Error en multimedia:", error);
       res.status(500).json({ error: "Error interno del servidor" });
     }
   };
-
+  
   
 module.exports = { 
   crearMultimedia, 
