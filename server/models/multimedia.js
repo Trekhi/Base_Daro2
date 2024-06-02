@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const MultimediaSchema = Schema({
 
-    descripción: {
+    descripcion: {
         type: String,
         required: [true, 'La descripción es necesaria'],
     },

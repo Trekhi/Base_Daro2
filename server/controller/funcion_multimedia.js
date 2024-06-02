@@ -73,13 +73,13 @@ const obtenerMultimediaId = async (req, res) => {
   
       // Verificar si el héroe fue encontrado y modificado
       if (!multimediaModificado) {
-        return res.status(404).json({ error: "Héroe no encontrado" });
+        return res.status(404).json({ error: "Multimedia no encontrado" });
       }
   
       // Responder con el héroe modificado
       res.json({ data: multimediaModificado });
     } catch (error) {
-      console.error("Error en modificarHeroe:", error);
+      console.error("Error en multimedia:", error);
       res.status(500).json({ error: "Error interno del servidor" });
     }
   };
