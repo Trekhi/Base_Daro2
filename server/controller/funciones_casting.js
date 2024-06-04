@@ -61,6 +61,19 @@ const obtenerCastingPelicula = async (req, res) => {
   }
 };
 
+const obtenerCastingPeliculaID = async (req, res) => {
+  const {_id } = req.params;  // id se pasa por url
+  try {
+    const castingPelicula = await CastingPelicula.findById(_id)
+      .populate('heroes_id', 'nombre') // Populate para el campo 'pelicula'
+      .populate('peliculas_id', 'titulo');   // Populate para el campo 'heroe'
+    res.json({ Ok: true, resp: castingPelicula });
+  } catch (error) {
+    console.error("Error en obtenerCastingPelicula:", error);
+    res.status(500).json({ Ok: false, resp: error.message });
+  }
+};
+
 
 const actualizarCasting = async (req, res = response) => {
   const {_id } = req.params;  // id se pasa por url
@@ -101,6 +114,7 @@ module.exports = {
   crearCasting, 
   obtenerCastingPelicula,
   actualizarCasting,
-  borrarCasting
+  borrarCasting,
+  obtenerCastingPeliculaID
 
 };
