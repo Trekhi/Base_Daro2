@@ -1,7 +1,7 @@
 const { MultimediaHeroe, Heroe, Multimedia } = require("../models");
 
 const obtenerMultimediaHeroe = async (req, res = response) => {
-  const { limite = 5, desde = 0 } = req.query;
+  const { limite = 20, desde = 0 } = req.query;
   // Eliminamos el filtro de estado
   const query = {};
 

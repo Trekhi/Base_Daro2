@@ -1,7 +1,7 @@
 const { MultimediaPelicula, Pelicula, Multimedia } = require("../models");
 
 const obtenerMultimediaPelicula = async (req, res = response) => {
-  const { limite = 5, desde = 0 } = req.query;
+  const { limite = 20, desde = 0 } = req.query;
   // Eliminamos el filtro de estado
   const query = {};
 
