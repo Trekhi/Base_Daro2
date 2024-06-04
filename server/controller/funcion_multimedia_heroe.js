@@ -25,6 +25,10 @@ const obtenerMultimediaHeroe = async (req, res = response) => {
         })
         .populate({
           path: "imagenes_id",
+          select: "url",
+        })
+        .populate({
+          path: "imagenes_id",
           select: "descripcion",
         })
         .skip(desdeNum)
