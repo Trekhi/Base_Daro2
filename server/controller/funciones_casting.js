@@ -53,7 +53,7 @@ const obtenerCastingPelicula = async (req, res) => {
   try {
     const castingPelicula = await CastingPelicula.find()
       .populate('heroes_id', 'nombre') // Populate para el campo 'pelicula'
-      .populate('peliculas_id', 'titulo');   // Populate para el campo 'heroe'
+      .populate('peliculas_id', 'titulo img');   // Populate para el campo 'heroe'
     res.json({ Ok: true, resp: castingPelicula });
   } catch (error) {
     console.error("Error en obtenerCastingPelicula:", error);
@@ -66,7 +66,7 @@ const obtenerCastingPeliculaID = async (req, res) => {
   try {
     const castingPelicula = await CastingPelicula.findById(_id)
       .populate('heroes_id', 'nombre') // Populate para el campo 'pelicula'
-      .populate('peliculas_id', 'titulo');   // Populate para el campo 'heroe'
+      .populate('peliculas_id', 'titulo img');   // Populate para el campo 'heroe'
     res.json({ Ok: true, resp: castingPelicula });
   } catch (error) {
     console.error("Error en obtenerCastingPelicula:", error);
