@@ -135,22 +135,15 @@ const borrarMultimediaHeroe = async (req, res = response) => {
   }
 };
 
-const obtenerHeroe = async(req,res=response) =>{
+const obtenerHeroe = async ( req, res = response)  => {
   const {heroes_id} = req.params;
 
-  console.log(heroes_id)
   try{
-    const heroeexiste= await MultimediaHeroe.findById(heroes_id);
-
-    //if (!heroeexiste) {
-      //return res.status(404).json({ Ok: false, resp: "No se encontró un héroe con ese ID" });
-    //}
-
-    const imagenesH= await MultimediaHeroe.find({ heroes_id })
+    const multimediaHeroe = await MultimediaHeroe.find({ heroes_id: heroes_id })
       .populate("heroes_id", "nombre")
       .populate("imagenes_id","descripcion url")
 
-      res.json({ Ok: true, total: imagenesH.length, resp: imagenesH });
+      res.json({ Ok: true, total: multimediaHeroe.length, resp: multimediaHeroe });
       }catch (error) {
       console.error(error);
       res.status(500).json({ Ok: false, resp: error.message });
